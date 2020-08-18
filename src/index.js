@@ -20,12 +20,24 @@ app.post("/api", (request, response) => {
     request.body.time = time;
     db.insert(request.body);
     console.log("Sucessfuly inserted info into the database");
-
+    
     response.end();
 });
 
+app.post("/db", (request, response) => {
+    db.find({ user: request.body.user }, (err, data) => {
+        if (err) {
+            console.log(err);
+            response.end();
+            return;
+        }
+        console.log(data);
+        response.json(data.length != 0)
+    });
+});
+
 app.post("/numbers", (request, response) => {
-    db.find({ cookie: request.body.cookie }, (err, data) => {
+    db.find({ user: request.body.cookie }, (err, data) => {
         response.json(data);
     });
 });
@@ -51,10 +63,16 @@ app.post("/theorchestraverdammten", (request, response) => {
     }
 });
 
+app.post("/updatedb", (request, response) => {
+    db.update({ user: request.body.user }, { $set: { hasPassed: true } });
+    response.end();
+});
+
 app.post("/terminauts", (request, response) => {
     const attempt = request.body.password.toLowerCase().trim();
     if (attempt == "governor" || attempt == "california") {
         let res = { url: "QR.html", text: "u did it :)" };
+        db.insert
         response.json(res);
     } else {
         response.json("wrong");
