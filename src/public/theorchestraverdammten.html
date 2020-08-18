@@ -45,10 +45,21 @@
             const res = await response.json();
             console.log(res);
             if (res.url) {
+                await updateDB({user: document.cookie});
                 location.href = res.url;
             } else {
                 alert(res);
             }
+        }
+        async function updateDB(user) {
+            const options = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(user),
+            };
+            await fetch("/updatedb", options);
         }
     </script>
 </body>

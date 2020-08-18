@@ -4,6 +4,9 @@ O NUMERO FICA SALVO NO LOCAL STORAGE ENT N MUDA
 2019
 the question is not where
 envolver qr code p ir p outros sites
-apocalypse suite
-the Orchestra Verdammten
-hotel oblivion
+envolver "viagem no tempo", volta a outras fases {
+	adicionar texto no contraste da imagem "dejavu"	
+}
+change oblivion path to hasFinished
+
+create propertie { allowedPages : ['terminauts', 'yiolin', etc]}

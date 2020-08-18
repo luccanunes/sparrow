@@ -24,26 +24,33 @@
 
     <script src="./JS/qrcode.js"></script>
     <script>
-        window.onload = async () => {
-            let psswrd = prompt('last password:');
-            await checkPassword({password: psswrd});
-        }
-        async function checkPassword(psswrd) {
-            const options = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(psswrd),
-            };
-            const response = await fetch("/QR", options);
-            const res = await response.json();
-            if (res == 'no')
-                alert(res);
-            else {
-                const QRdiv = document.querySelector('.QR');
-                new QRCode(QRdiv, {text: res.url, colorDark: '#ffffff', colorLight: '#000000'});
+        const checkAccount = (async () => {
+            if (document.cookie.length != 0 && typeof document.cookie != 'undefined') {
+                const user = {user: document.cookie};
+                const options = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(user),
+                };
+                var response = await fetch("/validateuser", options);
+                var res = await response.json();
+                console.log(res.hasPassed);
+                if (res.hasPassed) {
+                    createQR(res.url);
+                } else {
+                    alert("you're not allowed to be here u cheat")
+                }
+            } else {
+                await alert('u must login');
+                location.href = 'login.html';
             }
+        })();
+
+        function createQR(url) {
+            const QRdiv = document.querySelector('.QR');
+            new QRCode(QRdiv, {text: url, colorDark: '#ffffff', colorLight: '#000000'});
         }
     </script>
 </body>
