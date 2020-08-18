@@ -32,12 +32,12 @@ app.post("/numbers", (request, response) => {
 
 app.post("/theorchestraverdammten", (request, response) => {
     const attempt = request.body.password.toLowerCase().trim();
-    const close = ["2019", "june", "junho", "12 de junho", "june 12"];
+    const close = ["2019", "june", "junho", "12 de junho", "june 12", "12"];
     if (attempt == "oblivion") {
         response.json("have you completly forgotten this is about the umbrella academy?");
     } else if (attempt == "oblivion hotel" || attempt == "oblivionhotel") {
         response.json("any sense to you? does this make");
-    } else if (attempt == "hotel oblivion " || attempt == "hoteloblivion") {
+    } else if (attempt == "hotel oblivion" || attempt == "hoteloblivion") {
         response.json("right, but the question is not where or what, but when");
     } else if (close.includes(attempt)) {
         response.json("you're close, but please be more specific and format it in a better way");
@@ -74,8 +74,17 @@ app.post("/fl", (request, response) => {
 app.post("/QR", (request, response) => {
     const attempt = request.body.password.toLowerCase().trim();
     if (attempt == "governor" || attempt == "california" || attempt == "12/06/2019") {
-        response.json("yes u do");
+        let res = { url: "https://localhost:3000/fl.html", text: "u did it" };
+        response.json(res);
     } else {
         response.json("no");
     }
+});
+
+const links = ["/1", "/2", "/3", "/4", "/5", "/7", "/yiolin", "/apocalypsesuite", "/terminauts", "/theorchestraverdammten"];
+
+links.forEach((link) => {
+    app.get(link, (req, res) => {
+        res.redirect(`${link}.html`);
+    });
 });

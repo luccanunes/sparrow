@@ -3,11 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="./imgs/icon.png"/>
     <title>QR</title>
+    <style>
+        body {
+            display: flex;
+            background: black;
+            align-items: center;
+            flex-direction: column;
+        }
+        .QR {
+            margin-top: 35vh;
+        }
+    </style>
 </head>
 <body>
-    qr code
+    <div class="QR">
 
+    </div>
+
+    <script src="./JS/qrcode.js"></script>
     <script>
         window.onload = async () => {
             let psswrd = prompt('last password:');
@@ -23,7 +38,12 @@
             };
             const response = await fetch("/QR", options);
             const res = await response.json();
-            alert(res);
+            if (res == 'no')
+                alert(res);
+            else {
+                const QRdiv = document.querySelector('.QR');
+                new QRCode(QRdiv, {text: res.url, colorDark: '#ffffff', colorLight: '#000000'});
+            }
         }
     </script>
 </body>
