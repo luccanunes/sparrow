@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR</title>
+</head>
+<body>
+    qr code
+
+    <script>
+        window.onload = async () => {
+            let psswrd = prompt('last password:');
+            await checkPassword({password: psswrd});
+        }
+        async function checkPassword(psswrd) {
+            const options = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(psswrd),
+            };
+            const response = await fetch("/QR", options);
+            const res = await response.json();
+            alert(res);
+        }
+    </script>
+</body>
+</html>

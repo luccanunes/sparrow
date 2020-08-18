@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>interesting choice</title>
+    <style>
+        body {
+            background: black;
+        }
+        .txt {
+            color: white;
+        }
+        .button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="img">
+        <img src="./imgs/oblivion.jpg" usemap="#buttonmap" width="1920" height="1080">
+        <map name="buttonmap">
+            <area shape="circle" coords="1120, 180, 10" class="button" onclick="attempt()">
+        </map>
+    </div>
+    <div class="txt">
+        we're almost done here
+    </div>
+
+    <script>
+        async function attempt() {
+            let psswrd = prompt('Try your best: ');
+            await checkPassword({password: psswrd});
+        }
+        async function checkPassword(psswrd) {
+            const options = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(psswrd),
+            };
+            const response = await fetch("/theorchestraverdammten", options);
+            const res = await response.json();
+            console.log(res);
+            if (res.url) {
+                location.href = res.url;
+            } else {
+                alert(res);
+            }
+        }
+    </script>
+</body>
+</html>

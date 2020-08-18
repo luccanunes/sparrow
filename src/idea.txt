@@ -1,0 +1,6 @@
+QUANDO C ABRE A PAGINA ELE DEFINE UM NUMERO PRA VOCE
+DE 1 A 8 (8 == lila)
+O NUMERO FICA SALVO NO LOCAL STORAGE ENT N MUDA
+2019
+the question is not where
+envolver qr code p ir p outros sites

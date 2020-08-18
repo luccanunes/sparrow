@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>terminauts</title>
+    <style>
+        body {
+            background: black;
+            text-align: center;
+        }
+        .text {
+            color: white;
+        }
+        .button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="img">
+        <img src="./imgs/as.jpg" usemap="#buttonmap" width="600" height="760">
+        <map name="buttonmap">
+            <area shape="circle" coords="230, 300, 10" class="button" onclick="attempt()">
+        </map>
+    </div>
+    <div class="text">
+        are you a schwarzenegger fan by any chance ? <br>
+        well i am
+    </div>
+    <!-- 03 - 11 -->
+
+    <script>
+        async function attempt() {
+            let psswrd = prompt('Try your best: ');
+            await checkPassword({password: psswrd});
+        }
+        async function checkPassword(psswrd) {
+            const options = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(psswrd),
+            };
+            const response = await fetch("/terminauts", options);
+            const res = await response.json();
+            console.log(res);
+            if (res.url) {
+                location.href = res.url;
+            } else {
+                alert(res);
+            }
+        }
+    </script>
+</body>
+</html>
+
+<!-- TODO place img with clicable links to prompt -->
