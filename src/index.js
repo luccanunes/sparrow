@@ -20,7 +20,7 @@ app.post("/api", (request, response) => {
     request.body.time = time;
     db.insert(request.body);
     console.log("Sucessfuly inserted info into the database");
-    
+
     response.end();
 });
 
@@ -31,13 +31,12 @@ app.post("/db", (request, response) => {
             response.end();
             return;
         }
-        console.log(data);
-        response.json(data.length != 0)
+        response.json(data.length != 0);
     });
 });
 
 app.post("/numbers", (request, response) => {
-    db.find({ user: request.body.cookie }, (err, data) => {
+    db.find({ user: request.body.user }, (err, data) => {
         response.json(data);
     });
 });
@@ -71,8 +70,8 @@ app.post("/updatedb", (request, response) => {
 app.post("/terminauts", (request, response) => {
     const attempt = request.body.password.toLowerCase().trim();
     if (attempt == "governor" || attempt == "california") {
-        let res = { url: "QR.html", text: "u did it :)" };
-        db.insert
+        let res = { url: "yiolin!.html", text: "u did it :)" };
+        db.insert;
         response.json(res);
     } else {
         response.json("wrong");
@@ -89,17 +88,20 @@ app.post("/fl", (request, response) => {
     }
 });
 
-app.post("/QR", (request, response) => {
-    const attempt = request.body.password.toLowerCase().trim();
-    if (attempt == "governor" || attempt == "california" || attempt == "12/06/2019") {
-        let res = { url: "https://localhost:3000/fl.html", text: "u did it" };
+app.post("/validateuser", (request, response) => {
+    db.find({ user: request.body.user }, (err, data) => {
+        const res = { hasPassed: data[0].hasPassed, url: "fl.html" };
         response.json(res);
-    } else {
-        response.json("no");
-    }
+    });
 });
 
-const links = ["/1", "/2", "/3", "/4", "/5", "/7", "/yiolin", "/apocalypsesuite", "/terminauts", "/theorchestraverdammten"];
+app.post("/login", (request, response) => {
+    db.find({ user: request.body.user }, (err, data) => {
+        response.json(request.body.password == data[0].password);
+    });
+});
+
+const links = ["/1", "/2", "/3", "/4", "/5", "/7", "/yiolin", "/apocalypsesuite", "/terminauts", "/theorchestraverdammten", "/login"];
 
 links.forEach((link) => {
     app.get(link, (req, res) => {

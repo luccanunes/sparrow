@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="./imgs/icon.png"/>
+    <title>login</title>
+
+    <style>
+        body {
+            background: black;
+        }
+
+        .container { 
+            position: relative;
+        }
+
+        .center {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
+        label, .text {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="center">
+            <label for="user">Username:</label> <br>
+            <input type="text" name="user" id="user"> <br> <br>
+            <label for="password">Password:</label> <br>
+            <input type="password" name="password" id="password"> <br> <br>
+            <div class="container">
+                <input type="button" value="log in" class="center" onclick="main()">
+            </div>
+            <br>
+        </div>
+        <div class="note">
+            <div class="text">
+                note: <br>
+                if (you don't have an account yet) filling this form will create it; <br>
+                else this will just log you in; <br>
+                you can always access this page and sign up/in
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const main = async () => {
+            const user = document.querySelector('#user').value;
+            const password = document.querySelector('#password').value;
+            if (user.length == 0 || password.length == 0) {
+                alert('Invalid username and/or password');
+            } else {
+                let isRegistered = await inDb({user: user});
+                if (isRegistered) {
+                    // console.log('tem conta');
+                    login(user, password);
+                } else {
+                    // console.log('n tem conta');
+                    register(user, password);
+                }
+            }
+        };
+        async function login(user, psswrd) {
+            let correctPassword = await checkPassword(user, psswrd);
+            if (correctPassword) {
+                document.cookie = user;
+                alert('Sucessfully logged in!');
+                document.querySelector('#user').value = '';
+                document.querySelector('#password').value = '';
+            } else {
+                alert('Incorrect password');
+            }
+        }
+        async function checkPassword(user, psswrd) {
+            const data = {user: user, password: psswrd};
+            const options = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            };
+            const response = await fetch("/login", options);
+            const res = await response.json();
+
+            return res;
+        }
+        async function register(user, psswrd) {
+            const n = Math.floor(Math.random() * 8 + 1);
+            const data = { user: user, password: psswrd, number: n, hasPassed: false };
+            const options = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            };
+            await fetch("/api", options);
+            document.cookie = user;
+            alert('Sucessfully registered!');
+            document.querySelector('#user').value = '';
+            document.querySelector('#password').value = '';
+        }
+        async function inDb(user) {
+            const options = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(user),
+            };
+            const response = await fetch("/db", options);
+            const res = await response.json();
+            
+            return res;
+        }
+    </script> 
+</body>
+</html>
