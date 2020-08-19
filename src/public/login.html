@@ -95,7 +95,7 @@
         }
         async function register(user, psswrd) {
             const n = Math.floor(Math.random() * 8 + 1);
-            const data = { user: user, password: psswrd, number: n, hasPassed: false };
+            const data = { user: user, password: psswrd, number: n, allowedLevels: "" };
             const options = {
                 method: "POST",
                 headers: {

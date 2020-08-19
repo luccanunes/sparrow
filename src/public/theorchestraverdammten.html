@@ -45,21 +45,22 @@
             const res = await response.json();
             console.log(res);
             if (res.url) {
-                await updateDB({user: document.cookie});
+                await updateDB(document.cookie, res.url);
                 location.href = res.url;
             } else {
                 alert(res);
             }
         }
-        async function updateDB(user) {
+        async function updateDB(user, file) {
+            const data = {user: user, level: `/${file}`};
             const options = {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(user),
+                body: JSON.stringify(data),
             };
-            await fetch("/updatedb", options);
+            await fetch("/add-level", options);
         }
     </script>
 </body>

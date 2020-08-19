@@ -10,3 +10,6 @@ envolver "viagem no tempo", volta a outras fases {
 change oblivion path to hasFinished
 
 create propertie { allowedPages : ['terminauts', 'yiolin', etc]}
+
+
+TODO: check for allowed levels on load

@@ -13,6 +13,11 @@ const main = (async () => {
         location.href = "login.html";
     } else {
         user = document.cookie;
+        let isInDB = await inDb({ user: user });
+        if (!isInDB) {
+            await alert("it seems that you're not logged in yet. let's change that.");
+            location.href = "login.html";
+        }
     }
 
     let n = await getNum({ user: user });
@@ -26,6 +31,20 @@ const main = (async () => {
         txt.innerText = "that's a good one kkkkkkkkkkkkkk";
     }
 })();
+
+async function inDb(user) {
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+    };
+    const response = await fetch("/db", options);
+    const res = await response.json();
+
+    return res;
+}
 
 async function getNum(user) {
     const options = {

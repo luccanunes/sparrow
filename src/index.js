@@ -62,11 +62,6 @@ app.post("/theorchestraverdammten", (request, response) => {
     }
 });
 
-app.post("/updatedb", (request, response) => {
-    db.update({ user: request.body.user }, { $set: { hasPassed: true } });
-    response.end();
-});
-
 app.post("/terminauts", (request, response) => {
     const attempt = request.body.password.toLowerCase().trim();
     if (attempt == "governor" || attempt == "california") {
@@ -88,16 +83,30 @@ app.post("/fl", (request, response) => {
     }
 });
 
-app.post("/validateuser", (request, response) => {
-    db.find({ user: request.body.user }, (err, data) => {
-        const res = { hasPassed: data[0].hasPassed, url: "fl.html" };
-        response.json(res);
-    });
-});
-
 app.post("/login", (request, response) => {
     db.find({ user: request.body.user }, (err, data) => {
         response.json(request.body.password == data[0].password);
+    });
+});
+
+app.post("/add-level", (request, response) => {
+    let levels;
+    db.find({ user: request.body.user }, (err, data) => {
+        levels = data[0].allowedLevels.split(" ");
+        console.log(levels);
+        if (!levels.includes(request.body.level)) {
+            levels.push(request.body.level);
+            console.log(levels);
+            levels = levels.join(" ").trim();
+            db.update({ user: request.body.user }, { $set: { allowedLevels: levels } });
+        }
+        response.end();
+    });
+});
+
+app.post("/get-levels", (request, response) => {
+    db.find({ user: request.body.user }, (err, data) => {
+        response.json(data[0].allowedLevels.split(" "));
     });
 });
 
