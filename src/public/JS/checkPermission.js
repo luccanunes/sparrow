@@ -1,4 +1,4 @@
-async function check() {
+async function hasPermission() {
     const options = {
         method: "POST",
         headers: {
@@ -9,6 +9,5 @@ async function check() {
     const response = await fetch("/get-levels", options);
     const res = await response.json();
 
-    if (res.includes(location.pathname)) {
-    }
+    return res.includes(location.pathname);
 }

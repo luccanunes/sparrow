@@ -73,6 +73,17 @@ app.post("/terminauts", (request, response) => {
     }
 });
 
+app.post("/yiolin!", (request, response) => {
+    const attempt = request.body.password.toLowerCase().trim();
+    if (attempt == "ordinary") {
+        let res = { url: "QR.html", text: "u did it :)" };
+        db.insert;
+        response.json(res);
+    } else {
+        response.json("wrong");
+    }
+});
+
 app.post("/fl", (request, response) => {
     const attempt = request.body.password.toLowerCase().trim();
     if (attempt == "governor" || attempt == "california" || attempt == "12/06/2019") {
@@ -116,4 +127,8 @@ links.forEach((link) => {
     app.get(link, (req, res) => {
         res.redirect(`${link}.html`);
     });
+});
+
+app.get("/orchestraverdammten", (req, res) => {
+    res.redirect("/theorchestraverdammten.html");
 });
