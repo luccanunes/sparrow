@@ -20,27 +20,49 @@
         <img src="" alt="">
     </div>
 
+    <script src="./JS/checkPermission.js"></script>
     <script>
-        window.onload = async () => {
-            let psswrd = prompt('last password:');
-            await checkPassword({password: psswrd});
-        }
-        async function checkPassword(psswrd) {
+        const checkAccount = (async () => {
+            let isInDB = await inDb({user: document.cookie});
+            if (document.cookie.length != 0 && typeof document.cookie != 'undefined' && isInDB) {
+                let hasPerm = await hasPermission();
+                if (hasPerm) {
+                    const res = await getURL();
+                    document.querySelector('img').src = res.src;
+                } else {
+                    alert("you're not allowed to be here u cheat");
+                    location.href = 'index.html';
+                }
+            } else {
+                await alert('u must login');
+                location.href = 'login.html';
+            }
+        })();
+        async function inDb(user) {
             const options = {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(psswrd),
+                body: JSON.stringify(user),
+            };
+            const response = await fetch("/db", options);
+            const res = await response.json();
+            
+            return res;
+        }
+        async function getURL() {
+            const options = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({user: document.cookie}),
             };
             const response = await fetch("/fl", options);
             const res = await response.json();
-            if (res.src) {
-                document.querySelector('img').src = res.src;
-                alert(res.text);
-            } else {
-                alert(res);
-            }
+
+            return res;
         }
     </script>
 </body>

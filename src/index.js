@@ -85,13 +85,8 @@ app.post("/yiolin!", (request, response) => {
 });
 
 app.post("/fl", (request, response) => {
-    const attempt = request.body.password.toLowerCase().trim();
-    if (attempt == "governor" || attempt == "california" || attempt == "12/06/2019") {
-        let res = { src: "./imgs/wc.png", text: "congrats" };
-        response.json(res);
-    } else {
-        response.json("wrong");
-    }
+    let res = { src: "./imgs/wc.png", text: "congrats" };
+    response.json(res);
 });
 
 app.post("/login", (request, response) => {
@@ -121,7 +116,7 @@ app.post("/get-levels", (request, response) => {
     });
 });
 
-const links = ["/1", "/2", "/3", "/4", "/5", "/7", "/yiolin", "/apocalypsesuite", "/terminauts", "/theorchestraverdammten", "/login"];
+const links = ["/1", "/2", "/3", "/4", "/5", "/7", "/yiolin", "/apocalypsesuite", "/terminauts", "/terminal", "/theorchestraverdammten", "/login"];
 
 links.forEach((link) => {
     app.get(link, (req, res) => {
@@ -131,4 +126,8 @@ links.forEach((link) => {
 
 app.get("/orchestraverdammten", (req, res) => {
     res.redirect("/theorchestraverdammten.html");
+});
+
+app.post("/QR", (request, response) => {
+    response.json({ url: "fl.html" });
 });

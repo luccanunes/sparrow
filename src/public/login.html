@@ -3,43 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <link rel="icon" type="image/png" href="./imgs/icon.png"/>
     <title>login</title>
-
     <style>
         body {
             background: black;
         }
-
         .container { 
             position: relative;
         }
-
         .center {
             margin: 0;
             position: absolute;
             top: 50%;
+            left: 51%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+        .lcenter {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50.1%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+        label, .text {
+            color: white;
+        }
+        .fa-umbrella {
+            color: white;
+            font-size: 50px;
+            cursor: pointer;
+        }
+        .umbrella {
+            text-align: center;
+            margin: 0;
+            position: absolute;
+            top: 40%;
             left: 50%;
             -ms-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
         }
-
-        label, .text {
+        #eye {
             color: white;
+        }
+        .login {
+            margin-top: 50px;
         }
     </style>
 </head>
 <body>
     <main>
+        <div class="umbrella">
+            <a href="index.html"><i class="fas fa-umbrella"></i></a> <br> <br>
+        </div>
         <div class="center">
             <label for="user">Username:</label> <br>
             <input type="text" name="user" id="user"> <br> <br>
             <label for="password">Password:</label> <br>
-            <input type="password" name="password" id="password"> <br> <br>
-            <div class="container">
-                <input type="button" value="log in" class="center" onclick="main()">
-            </div>
+            <input type="password" name="password" id="password"> <i id='eye' class="fas fa-eye" onclick="showPassword()"></i> <br> <br>
+            
             <br>
+        </div>
+        <div class="lcenter">
+            <div class="container">
+                <input type="button" value="log in" class="lcenter login" onclick="main()">
+            </div>
         </div>
         <div class="note">
             <div class="text">
@@ -121,6 +152,17 @@
             const res = await response.json();
             
             return res;
+        }
+        function showPassword() {
+            const input = document.querySelector("#password");
+            const eye = document.querySelector("#eye");
+            if (input.type == 'password') {
+                eye.classList.replace('fa-eye', 'fa-eye-slash');
+                input.type = 'text';
+            } else {
+                eye.classList.replace('fa-eye-slash', 'fa-eye');
+                input.type = 'password';
+            }
         }
     </script> 
 </body>
